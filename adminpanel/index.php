@@ -1,5 +1,5 @@
 <?php
-    require "session.php";
+require "session.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,9 @@
 </head>
 
 <body>
-    <?php require "navbar.php"; ?>
-    <h2>Halo</h2>
+    <?php require "navbar.php";?>
+    <div class="container mt-5">
+        <h2>Halo <?php echo $_SESSION['username']; ?></h2>
+    </div>
 </body>
 </html>

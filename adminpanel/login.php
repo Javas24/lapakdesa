@@ -42,7 +42,7 @@
             </form>
         </div>
         
-        <div class="mt-3">
+        <div class="mt-3" style="width= 500px">
             <?php
                 if(isset($_POST['loginbtn'])){
                     $username = htmlspecialchars($_POST['username']);
@@ -50,13 +50,32 @@
 
                     $query = mysqli_query($con, "SELECT * FROM users WHERE username='$username'");
                     $countdata = mysqli_num_rows($query);
+                    $data = mysqli_fetch_array($query);
                     
                     if($countdata>0){
+                        if (password_verify($password, $data['password'])) {
+                            $_SESSION['username'] = $data['username'];
+                            $_SESSION['login'] = true;
+                            $_SESSION['usertype'] = $data['usertype'];
 
+                            if($_SESSION['usertype'] === 'user'){
+                                header('location: user_page.php');
+                            }else if($_SESSION['usertype'] === 'admin'){
+                                header('location: admin_page.php');
+                            }else{
+                                echo '<div class="alert alert-warning" role="alert">Invalid user type!</div>';
+                            }
+                        }else{
+                            ?>
+                            <div class="alert alert-warning" role="alert">
+                                Password salah
+                            </div>
+                            <?php
+                        }
                     }else{
                         ?>
                         <div class="alert alert-warning" role="alert">
-                            A simple warning alert—check it out!
+                            Akun tidak tersedia
                         </div>
                         <?php
                     }
